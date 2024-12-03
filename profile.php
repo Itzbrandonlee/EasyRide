@@ -6,8 +6,8 @@ if(isset($_SESSION['customer_id']) && isset($_SESSION['email'])){
         header('Location: logout.php');
         exit;
     }
-    // FETCH ALL USERS WHERE ID IS NOT EQUAL TO MY ID
-    $all_users = $user_obj->all_users($_SESSION['customer_id']);
+    // FETCH ALL VEHICLES
+    $all_vehicles = $vehicle_obj->all_vehicles();
 }
 else{
     header('Location: logout.php');
@@ -36,20 +36,26 @@ else{
                 <li><a href="logout.php" rel="noopener noreferrer">Logout</a></li>
             </ul>
         </nav>
-        <div class="all_users">
-            <h3>All Users</h3>
+        <div class="all_vehicles">
+            <h3>All Vehicles</h3>
             <div class="usersWrapper">
                 <?php
-                if($all_users){
-                    foreach($all_users as $row){
-                        echo '<div class="user_box">
-                                <div class="user_info"><span>'.$row->customer_fname.'</span>
-                                <span><a href="user_profile.php?id='.$row->customer_id.'" class="see_profileBtn">See profile</a></div>
+                if($all_vehicles){
+                    foreach($all_vehicles as $row){
+                        echo '<div class="vehicle_box">
+                                <div class="vehicle_info"><span>'.$row->seat_capacity.'</span>
+                                <div class="vehicle_info"><span>'.$row->mileage.'</span>
+                                <div class="vehicle_info"><span>'.$row->rate.'</span>
+                                <div class="vehicle_info"><span>'.$row->type_car_id.'</span>
+                                <div class="vehicle_info"><span>'.$row->fuel_type_id.'</span>
+                                <div class="vehicle_info"><span>'.$row->branch_id.'</span>
+                                <div class="vehicle_info"><span>'.$row->car_id.'</span>
+                                <span><a href="vehicle_profile.php?id='.$row->registration_num.'" class="see_profileBtn">See vehicle</a></div>
                             </div>';
                     }
                 }
                 else{
-                    echo '<h4>There is no user!</h4>';
+                    echo '<h4>There is no vehicles!</h4>';
                 }
                 ?>
             </div>
