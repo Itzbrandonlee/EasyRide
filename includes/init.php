@@ -15,3 +15,8 @@ $db_connection = $db_obj->dbConnection();
 // USER OBJECT
 $user_obj = new User($db_connection);
 
+// Employee object 
+$employee_obj = new Employee($db_connection);
+
+// Branch object
+$branch_obj = new Branch($db_connection);
