@@ -14,6 +14,7 @@ $db_connection = $db_obj->dbConnection();
 
 // USER OBJECT
 $user_obj = new User($db_connection);
+$vehicle_obj = new Vehicle($db_connection);
 
 // Employee object 
 $employee_obj = new Employee($db_connection);
