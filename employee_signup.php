@@ -43,7 +43,7 @@ if(isset($_SESSION['email'])){
         <option value="">--Select a Branch--</option>
         <?php foreach ($all_branches as $branch): ?>
           <option value="<?= htmlspecialchars($branch->branch_id); ?>">
-            <?= htmlspecialchars($branch->name); ?>
+            <?= htmlspecialchars($branch->branch_name); ?>
         </option>
         <?php endforeach; ?>
         </select>
