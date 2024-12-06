@@ -17,6 +17,7 @@ if(isset($_POST['branch']) && isset($_POST['departure-date']) && isset($_POST['r
     <title><?php echo  $vehicle_data->c_name;?></title>
     <link rel="stylesheet" href="./style.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="profile_container">
@@ -65,5 +66,6 @@ if(isset($_POST['branch']) && isset($_POST['departure-date']) && isset($_POST['r
      
         
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
