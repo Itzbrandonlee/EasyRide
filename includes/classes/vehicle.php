@@ -18,12 +18,12 @@ class Vehicle{
     // FIND USER BY ID
     function find_vehicle_by_id($id){
         try{
-            $find_vehicle = $this->db->prepare("SELECT c_name, car_type_name, model_year, manufacturer, seat_capacity, mileage, rate, fuel_type_name, description, color, registration_num, branch_name
+            $find_vehicle = $this->db->prepare("SELECT c_name, car_type_name, model_year, manufacturer, seat_capacity, mileage, rate, fuel_type_name, description, color, registration_num, branch_name, vehicle_branch_id
                                                 FROM `vehicle_details` as vd
                                                 LEFT JOIN `vehicle` as v ON v.car_id=vd.car_id 
                                                 LEFT JOIN `car_type` as ct ON ct.type_car_id=vd.type_car_id
                                                 LEFT JOIN `fuel_type` as ft ON ft.fuel_type_id=vd.fuel_type_id
-                                                LEFT JOIN `branch` as b ON b.branch_id=vd.branch_id
+                                                LEFT JOIN `branch` as b ON b.branch_id=vd.vehicle_branch_id
                                                 HAVING registration_num = ?");
             $find_vehicle->execute([$id]);
             if($find_vehicle->rowCount() === 1){
@@ -46,7 +46,7 @@ class Vehicle{
                                                 LEFT JOIN `vehicle` as v ON v.car_id=vd.car_id 
                                                 LEFT JOIN `car_type` as ct ON ct.type_car_id=vd.type_car_id
                                                 LEFT JOIN `fuel_type` as ft ON ft.fuel_type_id=vd.fuel_type_id
-                                                LEFT JOIN `branch` as b ON b.branch_id=vd.branch_id");
+                                                LEFT JOIN `branch` as b ON b.branch_id=vd.vehicle_branch_id");
             $get_vehicles->execute();
             if($get_vehicles->rowCount() > 0){
                 return $get_vehicles->fetchAll(PDO::FETCH_OBJ);
