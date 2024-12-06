@@ -33,6 +33,8 @@ else{
         <nav>
             <ul>
                 <li><a href="profile.php" rel="noopener noreferrer" class="active">Home</a></li>
+                <li><a href="profile.php" rel="noopener noreferrer">Bookings</a></li>
+                <li><a href="profile.php" rel="noopener noreferrer">Rental History</a></li>
                 <li><a href="logout.php" rel="noopener noreferrer">Logout</a></li>
             </ul>
         </nav>
@@ -43,14 +45,18 @@ else{
                 if($all_vehicles){
                     foreach($all_vehicles as $row){
                         echo '<div class="vehicle_box">
-                                <div class="vehicle_info"><span>'.$row->seat_capacity.'</span>
-                                <div class="vehicle_info"><span>'.$row->mileage.'</span>
-                                <div class="vehicle_info"><span>'.$row->rate.'</span>
-                                <div class="vehicle_info"><span>'.$row->type_car_id.'</span>
-                                <div class="vehicle_info"><span>'.$row->fuel_type_id.'</span>
-                                <div class="vehicle_info"><span>'.$row->branch_id.'</span>
-                                <div class="vehicle_info"><span>'.$row->car_id.'</span>
+                                <div class="vehicle_info"><span>Manufacturer: '.$row->manufacturer.'</span>
+                                <div class="vehicle_info"><span>Car Name: '.$row->c_name.'</span>
+                                <div class="vehicle_info"><span>Type: '.$row->car_type_name.'</span>
+                                <div class="vehicle_info"><span>Model Year: '.$row->model_year.'</span>
+                                <div class="vehicle_info"><span>Seat Capacity: '.$row->seat_capacity.'</span>
+                                <div class="vehicle_info"><span>Mileage: '.$row->mileage.'</span>
+                                <div class="vehicle_info"><span>Rate: '.$row->rate.'</span>
+                                <div class="vehicle_info"><span>Fuel Type: '.$row->fuel_type_name.'</span>
+                                <div class="vehicle_info"><span>Description: '.$row->description.'</span>
+                                <div class="vehicle_info"><span>Color: '.$row->color.'</span>
                                 <span><a href="vehicle_profile.php?id='.$row->registration_num.'" class="see_profileBtn">See vehicle</a></div>
+                                <br></br>
                             </div>';
                     }
                 }
