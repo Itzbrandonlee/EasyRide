@@ -46,6 +46,7 @@ $all_branches = $branch_obj->get_all_branches();
     <title><?php echo  $vehicle_data->c_name;?></title>
     <link rel="stylesheet" href="./style.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="profile_container">
@@ -94,5 +95,6 @@ $all_branches = $branch_obj->get_all_branches();
      
         
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
