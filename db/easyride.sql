@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2024 at 10:43 PM
+-- Generation Time: Dec 06, 2024 at 02:16 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,30 +24,212 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `booking`
+--
+
+CREATE TABLE `booking` (
+  `confirmation_num` int(11) NOT NULL,
+  `status` varchar(25) NOT NULL DEFAULT 'pending',
+  `vehicle_registration` int(11) NOT NULL,
+  `pickup_date` date NOT NULL,
+  `pickup_employee_email` varchar(50) DEFAULT NULL,
+  `customer_id` int(11) NOT NULL,
+  `drop_date` date NOT NULL,
+  `drop_employee_email` varchar(50) DEFAULT NULL,
+  `pickup_branch_id` int(11) NOT NULL,
+  `drop_branch_id` int(11) NOT NULL,
+  `amount` float(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `booking`
+--
+
+INSERT INTO `booking` (`confirmation_num`, `status`, `vehicle_registration`, `pickup_date`, `pickup_employee_email`, `customer_id`, `drop_date`, `drop_employee_email`, `pickup_branch_id`, `drop_branch_id`, `amount`) VALUES
+(2, 'pending', 1, '2024-12-05', NULL, 1, '2024-12-05', NULL, 1, 1, 23.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `branch`
+--
+
+CREATE TABLE `branch` (
+  `branch_id` int(11) NOT NULL,
+  `location` varchar(50) NOT NULL,
+  `branch_name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `branch`
+--
+
+INSERT INTO `branch` (`branch_id`, `location`, `branch_name`) VALUES
+(1, 'Laguna Beach', 'Easyride LB');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `car_type`
+--
+
+CREATE TABLE `car_type` (
+  `type_car_id` int(11) NOT NULL,
+  `car_type_name` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `car_type`
+--
+
+INSERT INTO `car_type` (`type_car_id`, `car_type_name`) VALUES
+(1, 'car'),
+(2, 'truck'),
+(3, 'SUV'),
+(4, 'van'),
+(5, 'Suburban');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customers`
 --
 
 CREATE TABLE `customers` (
+  `customer_id` int(11) NOT NULL,
   `customer_fname` varchar(25) NOT NULL,
   `customer_lname` varchar(25) NOT NULL,
   `customer_address` varchar(255) NOT NULL,
-  `customer_phonenum` varchar(11) NOT NULL,
+  `customer_phonenum` varchar(15) NOT NULL,
   `customer_email` varchar(50) NOT NULL,
-  `customer_password` varchar(100) NOT NULL,
-  `customer_id` int(11) NOT NULL
+  `customer_password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`customer_fname`, `customer_lname`, `customer_address`, `customer_phonenum`, `customer_email`, `customer_password`, `customer_id`) VALUES
-('Diego', 'Salas', '27715 KILLARNEY', '9493562350', 'diegosalas_2001@hotmail.com', '$2y$10$/.TP.NDW3XkEFW5XkVF/M.Us5ERvcEF322XOLg5jaBiNhCzphpOK.', 1),
-('Tony', 'Montana', '1245 Miami', '8883332222', 'tonymontana@gmail.com', '$2y$10$WZr4TRhpZ0WbXCh4lVbwWOD1Ofdzu26Bp5xc/qCaSADgZ8Ys0eeCy', 2);
+INSERT INTO `customers` (`customer_id`, `customer_fname`, `customer_lname`, `customer_address`, `customer_phonenum`, `customer_email`, `customer_password`) VALUES
+(1, 'Diego', 'Salas', '27715 KILLARNEY', '9491234567', 'diegosalas_2001@hotmail.com', '$2y$10$O2pic/ymgeWX21Fv.Ablneo4b7SGJKwVp3wePf8QFmQffxRI5.pUq');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee`
+--
+
+CREATE TABLE `employee` (
+  `employee_id` int(11) NOT NULL,
+  `employee_fname` varchar(25) NOT NULL,
+  `employee_lname` varchar(25) NOT NULL,
+  `employee_address` varchar(255) NOT NULL,
+  `employee_phonenum` varchar(15) NOT NULL,
+  `employee_email` varchar(50) NOT NULL,
+  `employee_password` varchar(100) NOT NULL,
+  `branch_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employee`
+--
+
+INSERT INTO `employee` (`employee_id`, `employee_fname`, `employee_lname`, `employee_address`, `employee_phonenum`, `employee_email`, `employee_password`, `branch_id`) VALUES
+(1, 'Tony', 'Montana', '1234 Sesame st', '9491234567', 'tonymontana@gmail.com', '$2y$10$IKZJfM6xSrGiglJk.haZeuw/lm31vURIjQ3nObfzIsENpifScWGfu', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fuel_type`
+--
+
+CREATE TABLE `fuel_type` (
+  `fuel_type_id` int(11) NOT NULL,
+  `fuel_type_name` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `fuel_type`
+--
+
+INSERT INTO `fuel_type` (`fuel_type_id`, `fuel_type_name`) VALUES
+(1, 'gasoline'),
+(2, 'hybrid'),
+(3, 'plug in hybrid'),
+(4, 'electric');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vehicle`
+--
+
+CREATE TABLE `vehicle` (
+  `car_id` int(11) NOT NULL,
+  `c_name` varchar(25) NOT NULL,
+  `description` varchar(200) NOT NULL,
+  `model_year` int(11) NOT NULL,
+  `manufacturer` varchar(20) NOT NULL,
+  `color` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `vehicle`
+--
+
+INSERT INTO `vehicle` (`car_id`, `c_name`, `description`, `model_year`, `manufacturer`, `color`) VALUES
+(1, 'Tacoma', '4x4', 2019, 'Toyota', 'Black'),
+(2, 'Suburban', 'XL', 2021, 'Chevrolet', 'White');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vehicle_details`
+--
+
+CREATE TABLE `vehicle_details` (
+  `registration_num` int(11) NOT NULL,
+  `seat_capacity` int(11) NOT NULL,
+  `mileage` int(11) NOT NULL,
+  `rate` float(10,2) NOT NULL,
+  `type_car_id` int(11) NOT NULL,
+  `fuel_type_id` int(11) NOT NULL,
+  `vehicle_branch_id` int(11) NOT NULL,
+  `car_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `vehicle_details`
+--
+
+INSERT INTO `vehicle_details` (`registration_num`, `seat_capacity`, `mileage`, `rate`, `type_car_id`, `fuel_type_id`, `vehicle_branch_id`, `car_id`) VALUES
+(1, 5, 40000, 23.00, 2, 1, 1, 1),
+(12346, 7, 20000, 45.00, 3, 2, 1, 2);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `booking`
+--
+ALTER TABLE `booking`
+  ADD PRIMARY KEY (`confirmation_num`),
+  ADD KEY `pickup_employee_email` (`pickup_employee_email`),
+  ADD KEY `customer_id` (`customer_id`),
+  ADD KEY `pickup_branch_id` (`pickup_branch_id`),
+  ADD KEY `drop_branch_id` (`drop_branch_id`);
+
+--
+-- Indexes for table `branch`
+--
+ALTER TABLE `branch`
+  ADD PRIMARY KEY (`branch_id`);
+
+--
+-- Indexes for table `car_type`
+--
+ALTER TABLE `car_type`
+  ADD PRIMARY KEY (`type_car_id`);
 
 --
 -- Indexes for table `customers`
@@ -55,17 +237,118 @@ INSERT INTO `customers` (`customer_fname`, `customer_lname`, `customer_address`,
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`customer_id`),
   ADD UNIQUE KEY `customer_phonenum` (`customer_phonenum`),
-  ADD KEY `customer_id` (`customer_email`);
+  ADD UNIQUE KEY `customer_email` (`customer_email`);
+
+--
+-- Indexes for table `employee`
+--
+ALTER TABLE `employee`
+  ADD PRIMARY KEY (`employee_id`),
+  ADD UNIQUE KEY `employee_phonenum` (`employee_phonenum`),
+  ADD UNIQUE KEY `employee_email` (`employee_email`),
+  ADD KEY `branch_id` (`branch_id`);
+
+--
+-- Indexes for table `fuel_type`
+--
+ALTER TABLE `fuel_type`
+  ADD PRIMARY KEY (`fuel_type_id`);
+
+--
+-- Indexes for table `vehicle`
+--
+ALTER TABLE `vehicle`
+  ADD PRIMARY KEY (`car_id`);
+
+--
+-- Indexes for table `vehicle_details`
+--
+ALTER TABLE `vehicle_details`
+  ADD PRIMARY KEY (`registration_num`),
+  ADD KEY `type_car_id` (`type_car_id`),
+  ADD KEY `fuel_type_id` (`fuel_type_id`),
+  ADD KEY `branch_id` (`vehicle_branch_id`),
+  ADD KEY `car_id` (`car_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
+-- AUTO_INCREMENT for table `booking`
+--
+ALTER TABLE `booking`
+  MODIFY `confirmation_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `branch`
+--
+ALTER TABLE `branch`
+  MODIFY `branch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `car_type`
+--
+ALTER TABLE `car_type`
+  MODIFY `type_car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `employee`
+--
+ALTER TABLE `employee`
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `fuel_type`
+--
+ALTER TABLE `fuel_type`
+  MODIFY `fuel_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `vehicle`
+--
+ALTER TABLE `vehicle`
+  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `vehicle_details`
+--
+ALTER TABLE `vehicle_details`
+  MODIFY `registration_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12347;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `booking`
+--
+ALTER TABLE `booking`
+  ADD CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`pickup_employee_email`) REFERENCES `employee` (`employee_email`),
+  ADD CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`),
+  ADD CONSTRAINT `booking_ibfk_3` FOREIGN KEY (`pickup_branch_id`) REFERENCES `branch` (`branch_id`),
+  ADD CONSTRAINT `booking_ibfk_4` FOREIGN KEY (`drop_branch_id`) REFERENCES `branch` (`branch_id`);
+
+--
+-- Constraints for table `employee`
+--
+ALTER TABLE `employee`
+  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`);
+
+--
+-- Constraints for table `vehicle_details`
+--
+ALTER TABLE `vehicle_details`
+  ADD CONSTRAINT `vehicle_details_ibfk_1` FOREIGN KEY (`type_car_id`) REFERENCES `car_type` (`type_car_id`),
+  ADD CONSTRAINT `vehicle_details_ibfk_2` FOREIGN KEY (`fuel_type_id`) REFERENCES `fuel_type` (`fuel_type_id`),
+  ADD CONSTRAINT `vehicle_details_ibfk_3` FOREIGN KEY (`vehicle_branch_id`) REFERENCES `branch` (`branch_id`),
+  ADD CONSTRAINT `vehicle_details_ibfk_4` FOREIGN KEY (`car_id`) REFERENCES `vehicle` (`car_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

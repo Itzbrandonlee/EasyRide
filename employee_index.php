@@ -32,6 +32,8 @@ if(isset($_SESSION['email'])){
       <input type="password" id="password" name="password" placeholder="Enter your password" required>
       <input type="submit" value="Login">
       <a href="employee_signup.php" class="form_link">Sign Up</a>
+      <br></br>
+      <a href="index.php" class="form_link">Customer Login</a>
       <div>  
       <?php
         if(isset($result['errorMessage'])){
