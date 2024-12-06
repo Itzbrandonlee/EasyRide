@@ -7,6 +7,7 @@ require 'classes/user.php';
 require 'classes/vehicle.php';
 require 'classes/branch.php';
 require 'classes/employee.php';
+require 'classes/booking.php';
 
 // DATABASE CONNECTIONS
 $db_obj = new Database();
@@ -23,3 +24,7 @@ $employee_obj = new Employee($db_connection);
 
 // Branch object
 $branch_obj = new Branch($db_connection);
+
+// Booking object
+$booking_obj = new Booking($db_connection);
+
