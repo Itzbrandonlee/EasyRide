@@ -7,7 +7,7 @@ if(isset($_SESSION['customer_id']) && isset($_SESSION['email'])){
         exit;
     }
     // FETCH ALL VEHICLES
-    $all_vehicles = $vehicle_obj->all_vehicles();
+    // $all_vehicles = $vehicle_obj->all_vehicles();
 } else{
     header('Location: logout.php');
     exit;

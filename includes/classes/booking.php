@@ -72,8 +72,51 @@ class Booking{
     // FETCH ALL USERS WHERE ID IS NOT EQUAL TO MY ID
     function all_bookings($id){
         try{
-            $get_bookings = $this->db->prepare("SELECT * FROM `bookings`");
+            $get_bookings = $this->db->prepare("SELECT * FROM `booking`");
             $get_bookings->execute([$id]);
+            if($get_bookings->rowCount() > 0){
+                return $get_bookings->fetchAll(PDO::FETCH_OBJ);
+            }
+            else{
+                return false;
+            }
+        }
+        catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+    function all_bookings_wo_id(){
+        try{
+            $get_bookings = $this->db->prepare("SELECT 
+            b.confirmation_num, 
+            b.status, 
+            b.vehicle_registration, 
+            b.pickup_date, 
+            b.drop_date, 
+            b.amount, 
+            c.customer_fname, 
+            c.customer_lname, 
+            pb.branch_name AS pickup_branch,
+            db.branch_name AS dropoff_branch,
+            de.employee_fname AS do_employee_fn, 
+            de.employee_lname AS do_employee_ln,
+            pe.employee_fname AS pu_employee_fn,
+            pe.employee_lname AS pu_employee_ln
+        FROM 
+            booking AS b
+        JOIN 
+            customers AS c ON c.customer_id = b.customer_id
+        JOIN 
+            branch AS pb ON b.pickup_branch_id = pb.branch_id
+        JOIN 
+            branch AS db ON b.drop_branch_id = db.branch_id
+        JOIN 
+            employee AS de ON de.employee_email = b.drop_employee_email
+        JOIN 
+            employee AS pe ON pe.employee_email = b.pickup_employee_email");
+
+            $get_bookings->execute();
             if($get_bookings->rowCount() > 0){
                 return $get_bookings->fetchAll(PDO::FETCH_OBJ);
             }
