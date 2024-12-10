@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2024 at 04:26 AM
+-- Generation Time: Dec 10, 2024 at 08:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,8 +46,9 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`confirmation_num`, `status`, `vehicle_registration`, `pickup_date`, `pickup_employee_email`, `customer_id`, `drop_date`, `drop_employee_email`, `pickup_branch_id`, `drop_branch_id`, `amount`) VALUES
-(4, 'pending', 1, '2024-12-06', NULL, 1, '2024-12-06', NULL, 1, 1, 23.00),
-(5, 'pending', 12346, '2024-12-24', NULL, 1, '2024-12-24', NULL, 1, 2, 45.00);
+(4, 'ongoing', 1, '2024-12-01', NULL, 1, '2024-12-02', NULL, 1, 2, 23.00),
+(5, 'pending', 12346, '2024-12-24', NULL, 1, '2024-12-24', NULL, 1, 2, 45.00),
+(6, 'pending', 12350, '2025-01-01', NULL, 2, '2025-01-01', NULL, 2, 3, 35.00);
 
 -- --------------------------------------------------------
 
@@ -113,7 +114,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`customer_id`, `customer_fname`, `customer_lname`, `customer_address`, `customer_phonenum`, `customer_email`, `customer_password`) VALUES
-(1, 'Diego', 'Salas', '27715 KILLARNEY', '9491234567', 'diegosalas_2001@hotmail.com', '$2y$10$O2pic/ymgeWX21Fv.Ablneo4b7SGJKwVp3wePf8QFmQffxRI5.pUq');
+(1, 'Diego', 'Salas', '27715 KILLARNEY', '9491234567', 'diegosalas_2001@hotmail.com', '$2y$10$O2pic/ymgeWX21Fv.Ablneo4b7SGJKwVp3wePf8QFmQffxRI5.pUq'),
+(2, 'Gustavo', 'Fring', '123 Pollos', '9493334444', 'gustavo@gmail.com', '$2y$10$v7rjd5xEtcD1xwTobSa2Q.xdS6THLxuI8/2WiJBk4xNJ/t8MSAMFm');
 
 -- --------------------------------------------------------
 
@@ -159,6 +161,27 @@ INSERT INTO `fuel_type` (`fuel_type_id`, `fuel_type_name`) VALUES
 (2, 'hybrid'),
 (3, 'plug in hybrid'),
 (4, 'electric');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `status_type`
+--
+
+CREATE TABLE `status_type` (
+  `status_id` int(11) NOT NULL,
+  `status` varchar(11) NOT NULL DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `status_type`
+--
+
+INSERT INTO `status_type` (`status_id`, `status`) VALUES
+(1, 'pending'),
+(2, 'ongoing'),
+(3, 'canceled'),
+(4, 'completed');
 
 -- --------------------------------------------------------
 
@@ -266,6 +289,12 @@ ALTER TABLE `fuel_type`
   ADD PRIMARY KEY (`fuel_type_id`);
 
 --
+-- Indexes for table `status_type`
+--
+ALTER TABLE `status_type`
+  ADD PRIMARY KEY (`status_id`);
+
+--
 -- Indexes for table `vehicle`
 --
 ALTER TABLE `vehicle`
@@ -289,7 +318,7 @@ ALTER TABLE `vehicle_details`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `confirmation_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `confirmation_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `branch`
@@ -307,7 +336,7 @@ ALTER TABLE `car_type`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `employee`
@@ -320,6 +349,12 @@ ALTER TABLE `employee`
 --
 ALTER TABLE `fuel_type`
   MODIFY `fuel_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `status_type`
+--
+ALTER TABLE `status_type`
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `vehicle`
