@@ -41,7 +41,7 @@ class Vehicle{
     // FETCH ALL USERS WHERE ID IS NOT EQUAL TO MY ID
     function all_vehicles(){
         try{
-            $get_vehicles = $this->db->prepare("SELECT c_name, car_type_name, model_year, manufacturer, seat_capacity, mileage, rate, fuel_type_name, description, color, registration_num, branch_name
+            $get_vehicles = $this->db->prepare("SELECT c_name, car_type_name, model_year, manufacturer, seat_capacity, mileage, rate, fuel_type_name, description, color, registration_num, branch_name, location
                                                 FROM `vehicle_details` as vd
                                                 LEFT JOIN `vehicle` as v ON v.car_id=vd.car_id 
                                                 LEFT JOIN `car_type` as ct ON ct.type_car_id=vd.type_car_id
