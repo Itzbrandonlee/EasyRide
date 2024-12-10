@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2024 at 02:16 AM
+-- Generation Time: Dec 10, 2024 at 10:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,7 +46,9 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`confirmation_num`, `status`, `vehicle_registration`, `pickup_date`, `pickup_employee_email`, `customer_id`, `drop_date`, `drop_employee_email`, `pickup_branch_id`, `drop_branch_id`, `amount`) VALUES
-(2, 'pending', 1, '2024-12-05', NULL, 1, '2024-12-05', NULL, 1, 1, 23.00);
+(4, 'canceled', 1, '2024-12-30', NULL, 1, '2024-12-31', NULL, 1, 2, 23.00),
+(5, 'pending', 12346, '2024-12-24', NULL, 1, '2024-12-24', NULL, 1, 2, 45.00),
+(6, 'pending', 12350, '2025-01-01', NULL, 2, '2025-01-01', NULL, 2, 3, 35.00);
 
 -- --------------------------------------------------------
 
@@ -65,7 +67,9 @@ CREATE TABLE `branch` (
 --
 
 INSERT INTO `branch` (`branch_id`, `location`, `branch_name`) VALUES
-(1, 'Laguna Beach', 'Easyride LB');
+(1, 'Laguna Beach', 'Easyride LB'),
+(2, 'Mission Viejo', 'easyride MV'),
+(3, 'Fullerton', 'easyride FUL');
 
 -- --------------------------------------------------------
 
@@ -110,7 +114,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`customer_id`, `customer_fname`, `customer_lname`, `customer_address`, `customer_phonenum`, `customer_email`, `customer_password`) VALUES
-(1, 'Diego', 'Salas', '27715 KILLARNEY', '9491234567', 'diegosalas_2001@hotmail.com', '$2y$10$O2pic/ymgeWX21Fv.Ablneo4b7SGJKwVp3wePf8QFmQffxRI5.pUq');
+(1, 'Diego', 'Salas', '27715 KILLARNEY', '9491234567', 'diegosalas_2001@hotmail.com', '$2y$10$O2pic/ymgeWX21Fv.Ablneo4b7SGJKwVp3wePf8QFmQffxRI5.pUq'),
+(2, 'Gustavo', 'Fring', '123 Pollos', '9493334444', 'gustavo@gmail.com', '$2y$10$v7rjd5xEtcD1xwTobSa2Q.xdS6THLxuI8/2WiJBk4xNJ/t8MSAMFm');
 
 -- --------------------------------------------------------
 
@@ -160,6 +165,27 @@ INSERT INTO `fuel_type` (`fuel_type_id`, `fuel_type_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `status_type`
+--
+
+CREATE TABLE `status_type` (
+  `status_id` int(11) NOT NULL,
+  `status` varchar(11) NOT NULL DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `status_type`
+--
+
+INSERT INTO `status_type` (`status_id`, `status`) VALUES
+(1, 'pending'),
+(2, 'ongoing'),
+(3, 'canceled'),
+(4, 'completed');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vehicle`
 --
 
@@ -178,7 +204,11 @@ CREATE TABLE `vehicle` (
 
 INSERT INTO `vehicle` (`car_id`, `c_name`, `description`, `model_year`, `manufacturer`, `color`) VALUES
 (1, 'Tacoma', '4x4', 2019, 'Toyota', 'Black'),
-(2, 'Suburban', 'XL', 2021, 'Chevrolet', 'White');
+(2, 'Suburban', 'XL', 2021, 'Chevrolet', 'White'),
+(3, 'Corolla', 'Standard', 2024, 'Toyota', 'Grey'),
+(4, 'Wrangler', '4x4', 2021, 'Jeep', 'Red'),
+(5, 'Civic', 'Luxury', 2023, 'Honda', 'White'),
+(6, 'Durango', 'Standard', 2018, 'Dodge', 'Black');
 
 -- --------------------------------------------------------
 
@@ -203,7 +233,11 @@ CREATE TABLE `vehicle_details` (
 
 INSERT INTO `vehicle_details` (`registration_num`, `seat_capacity`, `mileage`, `rate`, `type_car_id`, `fuel_type_id`, `vehicle_branch_id`, `car_id`) VALUES
 (1, 5, 40000, 23.00, 2, 1, 1, 1),
-(12346, 7, 20000, 45.00, 3, 2, 1, 2);
+(12346, 7, 20000, 45.00, 3, 2, 1, 2),
+(12347, 4, 30000, 31.00, 2, 1, 3, 4),
+(12348, 4, 25000, 15.00, 1, 1, 3, 3),
+(12349, 4, 15000, 20.00, 1, 2, 2, 5),
+(12350, 7, 50000, 35.00, 3, 1, 2, 6);
 
 --
 -- Indexes for dumped tables
@@ -255,6 +289,12 @@ ALTER TABLE `fuel_type`
   ADD PRIMARY KEY (`fuel_type_id`);
 
 --
+-- Indexes for table `status_type`
+--
+ALTER TABLE `status_type`
+  ADD PRIMARY KEY (`status_id`);
+
+--
 -- Indexes for table `vehicle`
 --
 ALTER TABLE `vehicle`
@@ -278,13 +318,13 @@ ALTER TABLE `vehicle_details`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `confirmation_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `confirmation_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `branch`
 --
 ALTER TABLE `branch`
-  MODIFY `branch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `branch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `car_type`
@@ -296,7 +336,7 @@ ALTER TABLE `car_type`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `employee`
@@ -311,16 +351,22 @@ ALTER TABLE `fuel_type`
   MODIFY `fuel_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `status_type`
+--
+ALTER TABLE `status_type`
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `vehicle`
 --
 ALTER TABLE `vehicle`
-  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `vehicle_details`
 --
 ALTER TABLE `vehicle_details`
-  MODIFY `registration_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12347;
+  MODIFY `registration_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12351;
 
 --
 -- Constraints for dumped tables
