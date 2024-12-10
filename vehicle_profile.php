@@ -30,7 +30,7 @@ if(isset($_POST['branch']) && isset($_POST['departure-date']) && isset($_POST['r
             <nav>
             <ul>
                 <li><a href="profile.php" rel="noopener noreferrer">Home</a></li>
-                <li><a href="profile.php" rel="noopener noreferrer">Bookings</a></li>
+                <li><a href="mybookings.php" rel="noopener noreferrer">Bookings</a></li>
                 <li><a href="profile.php" rel="noopener noreferrer">Rental History</a></li>
                 <li><a href="logout.php" rel="noopener noreferrer">Logout</a></li>
             </ul>
@@ -39,7 +39,7 @@ if(isset($_POST['branch']) && isset($_POST['departure-date']) && isset($_POST['r
         <div class="booking-form">
             <h2>Rental Booking Form</h2>
             <form action="" method="post">  
-            <label for="branch">Branch</label>    
+            <label for="branch">Drop off Branch</label>    
             <select name="branch" id="branch" required>
                 <option value="">--Select a Branch--</option>
                 <?php foreach ($all_branches as $branch): ?>
