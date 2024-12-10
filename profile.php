@@ -45,7 +45,7 @@ $all_branches = $branch_obj->get_all_branches();
         <nav>
             <ul>
                 <li><a href="profile.php" rel="noopener noreferrer" class="active">Home</a></li>
-                <li><a href="profile.php" rel="noopener noreferrer">Bookings</a></li>
+                <li><a href="mybookings.php" rel="noopener noreferrer">Bookings</a></li>
                 <li><a href="profile.php" rel="noopener noreferrer">Rental History</a></li>
                 <li><a href="logout.php" rel="noopener noreferrer">Logout</a></li>
             </ul>
