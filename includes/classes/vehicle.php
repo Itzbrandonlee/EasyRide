@@ -85,5 +85,22 @@ class Vehicle{
             return null;
         }
     }
+
+// DELETE VEHICLE
+function deleteVehicle($reg_num){
+    $this->registration_num = trim($reg_num);
+    try{
+                    $sql = "DELETE FROM vehicle_details
+                            WHERE registration_num = :registration_num";
+        
+                    $delete_stmt = $this->db->prepare($sql);
+                    $delete_stmt->bindValue(':registration_num',htmlspecialchars($this->registration_num), PDO::PARAM_STR);
+                    $delete_stmt->execute();
+                    return ['successMessage' => 'Delete request submitted.'];                    
+    }
+    catch (PDOException $e) {
+        die($e->getMessage());
+    }
+}
 }
 ?>
