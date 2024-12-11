@@ -400,3 +400,45 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+CREATE VIEW `cancelled_bookings` AS
+    SELECT 
+        `c`.`customer_fname` AS `customer_fname`,
+        `c`.`customer_lname` AS `customer_lname`,
+        `c`.`customer_email` AS `customer_email`,
+        `c`.`customer_phonenum` AS `customer_phonenum`
+    FROM
+        (`customers` `c`
+        JOIN `booking` `b` ON (`b`.`customer_id` = `c`.`customer_id`))
+    WHERE
+        `b`.`status` = 'canceled';
+
+CREATE VIEW `popular_cars` AS
+    SELECT DISTINCT
+        `v`.`c_name` AS `c_name`,
+        `v`.`description` AS `description`,
+        `v`.`model_year` AS `model_year`,
+        `v`.`manufacturer` AS `manufacturer`,
+        `v`.`color` AS `color`,
+        `vd`.`registration_num` AS `registration_num`,
+        `vd`.`seat_capacity` AS `seat_capacity`,
+        `vd`.`mileage` AS `mileage`,
+        `vd`.`rate` AS `rate`
+    FROM
+        ((((`vehicle` `v`
+        JOIN `vehicle_details` `vd` ON (`vd`.`car_id` = `v`.`car_id`))
+        JOIN `car_type` `ct` ON (`ct`.`type_car_id` = `vd`.`type_car_id`))
+        JOIN `fuel_type` `ft` ON (`ft`.`fuel_type_id` = `vd`.`fuel_type_id`))
+        JOIN `booking` `b` ON (`b`.`vehicle_registration` = `vd`.`registration_num`));
+
+CREATE VIEW `repeat_customers` AS
+    SELECT 
+        `c`.`customer_fname` AS `customer_fname`,
+        `c`.`customer_lname` AS `customer_lname`,
+        `c`.`customer_email` AS `customer_email`,
+        `c`.`customer_phonenum` AS `customer_phonenum`
+    FROM
+        (`customers` `c`
+        JOIN `booking` `b` ON (`b`.`customer_id` = `c`.`customer_id`))
+    GROUP BY `c`.`customer_id` , `c`.`customer_fname` , `c`.`customer_lname` , `c`.`customer_email` , `c`.`customer_phonenum`
+    HAVING COUNT(0) >= 3;

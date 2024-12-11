@@ -68,10 +68,10 @@ class Vehicle{
                                                     JOIN vehicle_details AS vd ON v.car_id = vd.car_id
                                                     JOIN fuel_type AS ft ON vd.fuel_type_id = ft.fuel_type_id
                                                     JOIN car_type AS ct ON vd.type_car_id = ct.type_car_id
-                                                    JOIN branch AS br ON br.branch_id = vd.branch_id
+                                                    JOIN branch AS br ON br.branch_id = vd.vehicle_branch_id
                                                     LEFT JOIN booking AS b ON vd.registration_num = b.vehicle_registration
                                                     AND NOT (b.drop_date < ? OR b.pickup_date > ?)
-                                                    WHERE br.branch_id = ? AND b.vehicle_registration IS NULL;");
+                                                    WHERE br.branch_id = ? AND b.vehicle_registration IS NULL OR b.status = 'canceled';");
 
                 $search_vehicles->execute([$start_date, $end_date, $branch]);
                 if($search_vehicles->rowCount() > 0){
