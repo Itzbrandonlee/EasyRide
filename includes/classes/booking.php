@@ -73,7 +73,7 @@ class Booking{
     function all_bookings(){
         try{
             $get_bookings = $this->db->prepare("SELECT * FROM `booking`");
-            $get_bookings->execute([$id]);
+            $get_bookings->execute();
             $get_bookings = $this->db->prepare("SELECT confirmation_num, status, manufacturer, c_name, model_year, seat_capacity, pickup_date, drop_date, b1.branch_name as b1_branch_name, b2.branch_name as b2_branch_name, customer_id
                                                 FROM `booking` as bo
                                                 LEFT JOIN `vehicle_details` as vd ON 
@@ -94,39 +94,39 @@ class Booking{
         }
     }
 
-    function all_bookings_wo_id(){
-        try{
-            $get_bookings = $this->db->prepare("SELECT 
-            b.confirmation_num, 
-            b.status, 
-            b.vehicle_registration, 
-            b.pickup_date, 
-            b.drop_date, 
-            b.amount, 
-            c.customer_fname, 
-            c.customer_lname, 
-            pb.branch_name AS pickup_branch,
-            db.branch_name AS dropoff_branch,
-            de.employee_fname AS do_employee_fn, 
-            de.employee_lname AS do_employee_ln,
-            pe.employee_fname AS pu_employee_fn,
-            pe.employee_lname AS pu_employee_ln
-        FROM 
-            booking AS b
-        JOIN 
-            customers AS c ON c.customer_id = b.customer_id
-        JOIN 
-            branch AS pb ON b.pickup_branch_id = pb.branch_id
-        JOIN 
-            branch AS db ON b.drop_branch_id = db.branch_id
-        JOIN 
-            employee AS de ON de.employee_email = b.drop_employee_email
-        JOIN 
-            employee AS pe ON pe.employee_email = b.pickup_employee_email");
+    // function all_bookings_wo_id(){
+    //     try{
+    //         $get_bookings = $this->db->prepare("SELECT 
+    //         b.confirmation_num, 
+    //         b.status, 
+    //         b.vehicle_registration, 
+    //         b.pickup_date, 
+    //         b.drop_date, 
+    //         b.amount, 
+    //         c.customer_fname, 
+    //         c.customer_lname, 
+    //         pb.branch_name AS pickup_branch,
+    //         db.branch_name AS dropoff_branch,
+    //         de.employee_fname AS do_employee_fn, 
+    //         de.employee_lname AS do_employee_ln,
+    //         pe.employee_fname AS pu_employee_fn,
+    //         pe.employee_lname AS pu_employee_ln
+    //     FROM 
+    //         booking AS b
+    //     JOIN 
+    //         customers AS c ON c.customer_id = b.customer_id
+    //     JOIN 
+    //         branch AS pb ON b.pickup_branch_id = pb.branch_id
+    //     JOIN 
+    //         branch AS db ON b.drop_branch_id = db.branch_id
+    //     JOIN 
+    //         employee AS de ON de.employee_email = b.drop_employee_email
+    //     JOIN 
+    //         employee AS pe ON pe.employee_email = b.pickup_employee_email");
 
-            $get_bookings->execute();
-            if($get_bookings->rowCount() > 0){
-                return $get_bookings->fetchAll(PDO::FETCH_OBJ);
+    //         $get_bookings->execute();
+    //         if($get_bookings->rowCount() > 0){
+    //             return $get_bookings->fetchAll(PDO::FETCH_OBJ);
         // SUBMIT BOOKING
     function bookingUpdate($conf_num, $p_date, $d_date, $d_branch_id, $b_status){
         try{

@@ -33,7 +33,6 @@ else{
         <nav>
             <ul>
                 <li><a href="employee_profile.php" rel="noopener noreferrer" class="active">Home</a></li>
-                <li><a href="employee_booking.php" rel="noopener noreferrer" class="active">Bookings</a></li>
                 <li><a href="employee_vehicles.php" rel="noopener noreferrer">All Vehicles</a></li>
                 <li><a href="logout.php" rel="noopener noreferrer">Logout</a></li>
             </ul>
