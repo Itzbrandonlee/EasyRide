@@ -12,6 +12,7 @@ class Booking{
     protected $drop_employee_email;
     protected $pickup_branch_id;
     protected $drop_branch_id;
+    protected $employee_email;
     protected $amount;
     
     function __construct($db_connection){
@@ -128,21 +129,19 @@ class Booking{
     //         if($get_bookings->rowCount() > 0){
     //             return $get_bookings->fetchAll(PDO::FETCH_OBJ);
         // SUBMIT BOOKING
-    function bookingUpdate($conf_num, $p_date, $d_date, $d_branch_id, $b_status){
+    function bookingUpdate($conf_num, $p_date, $d_date, $d_branch_id){
         try{
             $this->confirmation_num = trim($conf_num);
             $this->pickup_date = trim($p_date);
             $this->drop_date = trim($d_date);
             $this->drop_branch_id = trim($d_branch_id);
-            $this->status = trim($b_status);
 
-            if(!empty($this->confirmation_num) && !empty($this->pickup_date) && !empty($this->drop_date) && !empty($this->status)){
+            if(!empty($this->confirmation_num) && !empty($this->pickup_date) && !empty($this->drop_date)){
                         $sql = "UPDATE `booking` 
                                 SET
                                     drop_branch_id = :drop_branch_id,
                                     pickup_date = :pickup_date,
-                                    drop_date = :drop_date,
-                                    status = :status
+                                    drop_date = :drop_date
                                 WHERE confirmation_num = :confirmation_num";
             
                         $booking_stmt = $this->db->prepare($sql);
@@ -151,7 +150,6 @@ class Booking{
                         $booking_stmt->bindValue(':pickup_date',htmlspecialchars($this->pickup_date), PDO::PARAM_STR);
                         $booking_stmt->bindValue(':drop_date',htmlspecialchars($this->drop_date), PDO::PARAM_STR);
                         $booking_stmt->bindValue(':drop_branch_id',$this->drop_branch_id, PDO::PARAM_STR);
-                        $booking_stmt->bindValue(':status', $this->status, PDO::PARAM_STR);
                         $booking_stmt->execute();
                         return ['successMessage' => 'Booking update submitted.'];                   
             }
@@ -174,6 +172,53 @@ class Booking{
             else{
                 return false;
             }
+        }
+        catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+    function bookingStatusUpdate($conf_num, $new_status, $new_email){
+        try{
+            $this->confirmation_num = trim($conf_num);
+            $this->status = trim($new_status);
+            $this->employee_email = trim($new_email);
+
+            if(!empty($this->confirmation_num) && !empty($this->status) && !empty($this->employee_email)){
+                if ($new_status === 'ongoing'){
+                    $sql = "UPDATE `booking` 
+                    SET
+                        status = :status,
+                        pickup_employee_email = :employee_email
+                    WHERE confirmation_num = :confirmation_num";
+                }
+                else if ($new_status === 'completed'){
+                    $sql = "UPDATE `booking` 
+                    SET
+                        status = :status,
+                        drop_employee_email = :employee_email
+                    WHERE confirmation_num = :confirmation_num";
+                }
+                else{
+                    $sql = "UPDATE `booking` 
+                    SET
+                        status = :status
+                    WHERE confirmation_num = :confirmation_num";
+                }
+            
+                $booking_stmt = $this->db->prepare($sql);
+                //BIND VALUES
+                $booking_stmt->bindValue(':confirmation_num',htmlspecialchars($this->confirmation_num), PDO::PARAM_STR);
+                $booking_stmt->bindValue(':status',htmlspecialchars($this->status), PDO::PARAM_STR);
+                if ($new_status === 'ongoing' || $new_status === 'completed'){
+                    $booking_stmt->bindValue(':employee_email',htmlspecialchars($this->employee_email), PDO::PARAM_STR);
+                }
+                $booking_stmt->execute();
+                return ['successMessage' => 'Booking update submitted.'];                   
+            }
+            else{
+                return ['errorMessage' => 'Please fill in all the required fields.'];
+            } 
         }
         catch (PDOException $e) {
             die($e->getMessage());
