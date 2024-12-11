@@ -156,5 +156,20 @@ class User{
             die($e->getMessage());
         }
     }
+
+    function repeat_customer() {
+        try {
+            $get_repeat_customer = $this->db->prepare("SELECT * from repeat_customers");
+            $get_repeat_customer->execute();
+            if($get_repeat_customer->rowCount() > 0){
+                return $get_repeat_customer->fetchAll(PDO::FETCH_OBJ);
+            }
+            else{
+                return false;
+            }
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
 }
 ?>

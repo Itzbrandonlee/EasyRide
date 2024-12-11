@@ -179,5 +179,20 @@ class Booking{
             die($e->getMessage());
         }
     }
+
+    function cancelled_bookings() {
+        try {
+            $users_cancelled = $this->db->prepare("SELECT * from cancelled_bookings");
+            $users_cancelled->execute();
+            if($users_cancelled->rowCount() > 0){
+                return $users_cancelled->fetchAll(PDO::FETCH_OBJ);
+            }
+            else{
+                return false;
+            }
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }    
 }
 ?>
