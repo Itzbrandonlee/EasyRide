@@ -2,10 +2,9 @@
 require 'includes/init.php';
 $booking_data = $booking_obj->find_booking_by_id($_GET['id']);
 $all_branches = $branch_obj->get_all_branches();
-$all_statuses = $booking_obj->get_all_statuses();
 
-if(isset($_POST['branch']) && isset($_POST['status']) && isset($_POST['departure-date']) && isset($_POST['return-date'])){
-    $result = $booking_obj->bookingUpdate($booking_data->confirmation_num, $_POST['departure-date'], $_POST['return-date'], $_POST['branch'], $_POST['status']);
+if(isset($_POST['branch']) && isset($_POST['departure-date']) && isset($_POST['return-date'])){
+    $result = $booking_obj->bookingUpdate($booking_data->confirmation_num, $_POST['departure-date'], $_POST['return-date'], $_POST['branch']);
   }
 // else if(isset($_POST['branch'])){
 //     $result = $booking_obj->bookingUpdate($booking_data->confirmation_num, $booking_data->pickup_date, $booking_data->drop_date, $_POST['branch'], $booking_data->status);
@@ -48,11 +47,11 @@ if(isset($_POST['branch']) && isset($_POST['status']) && isset($_POST['departure
             </ul>
         </nav>
         <div class="background">
-        <div class="booking-form">
+        <div class="update-booking-form">
             <h2>Update</h2>
             <form action="" method="post">  
             <label for="branch">Drop off Branch</label>    
-            <select name="branch" id="branch">
+            <select name="branch" id="branch" required>
                 <option value="">--Select a Branch--</option>
                 <?php foreach ($all_branches as $branch): ?>
                     <option value="<?= htmlspecialchars($branch->branch_id); ?>">
@@ -61,23 +60,13 @@ if(isset($_POST['branch']) && isset($_POST['status']) && isset($_POST['departure
                 <?php endforeach; ?>
             </select>  
             <br></br>
-            <label for="status">Status</label>  
-            <select name="status" id="status">
-                <option value="">--Select status--</option>
-                <?php foreach ($all_statuses as $statuses): ?>
-                    <option value="<?= htmlspecialchars($statuses->status); ?>">
-                        <?= htmlspecialchars($statuses->status); ?>
-                </option>
-                <?php endforeach; ?>
-            </select>
-                <br></br>
            
                 <label for="departure-date">Pick Up Date:</label>
-                <input type="date" name="departure-date" id="departure-date">
+                <input type="date" name="departure-date" id="departure-date" required>
                 <br></br>
                
                 <label for="return-date">Drop Off Date:</label>
-                <input type="date" name="return-date" id="return-date">
+                <input type="date" name="return-date" id="return-date" required>
                 <br></br>
 
                 
