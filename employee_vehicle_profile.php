@@ -3,9 +3,13 @@ require 'includes/init.php';
 $vehicle_data = $vehicle_obj->find_vehicle_by_id($_GET['id']);
 $all_branches = $branch_obj->get_all_branches();
 
-if(isset($_POST['branch']) && isset($_POST['departure-date']) && isset($_POST['return-date'])){
-    $result = $booking_obj->bookingSubmission($_GET['id'], $_POST['departure-date'], $_SESSION['customer_id'], $_POST['return-date'], $vehicle_data->vehicle_branch_id, $_POST['branch'], $vehicle_data->rate);
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if(isset($_POST['btnDelete'])){
+    echo '<script>console.log("Welcome to GeeksforGeeks!"); </script>'; 
+    $vehicle_obj->deleteVehicle($vehicle_data->registration_num);
+    header("Location: employee_vehicles.php");
   }
+}
 
 ?>
 <!DOCTYPE html>
@@ -37,27 +41,20 @@ if(isset($_POST['branch']) && isset($_POST['departure-date']) && isset($_POST['r
         <div class="background">
         <div class="booking-form">
             <h2>Actions</h2>
-            <form action="" method="post">  
-            <label for="branch">Drop off Branch</label>    
-            <select name="branch" id="branch" required>
-                <option value="">--Select a Branch--</option>
-                <?php foreach ($all_branches as $branch): ?>
-                    <option value="<?= htmlspecialchars($branch->branch_id); ?>">
-                        <?= htmlspecialchars($branch->branch_name); ?>
-                </option>
-                <?php endforeach; ?>
-            </select>
-                <br></br>
-           
-                <label for="departure-date">Pick Up Date:</label>
-                <input type="date" name="departure-date" id="departure-date" required>
-                <br></br>
-               
-                <label for="return-date">Drop Off Date:</label>
-                <input type="date" name="return-date" id="return-date" required>
-                <br></br>
-
-                <button type="submit">Book Now</button>
+            <form method=POST>  
+            <div class="vehicle_info"><span>Manufacturer: <?php echo $vehicle_data->manufacturer ?></span>
+                                <div class="vehicle_info"><span>Car Name: <?php echo $vehicle_data->c_name ?></span>
+                                <div class="vehicle_info"><span>Type: <?php echo $vehicle_data->car_type_name ?></span>
+                                <div class="vehicle_info"><span>Model Year: <?php echo $vehicle_data->model_year ?></span>
+                                <div class="vehicle_info"><span>Seat Capacity: <?php echo $vehicle_data->seat_capacity ?></span>
+                                <div class="vehicle_info"><span>Mileage: <?php echo $vehicle_data->mileage ?></span>
+                                <div class="vehicle_info"><span>Rate: <?php echo $vehicle_data->rate ?></span>
+                                <div class="vehicle_info"><span>Fuel Type: <?php echo $vehicle_data->fuel_type_name ?></span>
+                                <div class="vehicle_info"><span>Description: <?php echo $vehicle_data->description ?></span>
+                                <div class="vehicle_info"><span>Color: <?php echo $vehicle_data->color ?></span>
+                                <div class="vehicle_info"><span>Location: <?php echo $vehicle_data->branch_name ?></span>
+                                <button type="submit" name="btnDelete" value="Delete">Delete</button>
+                                <br></br>
             </form>
         </div>
     </div>
