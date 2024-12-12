@@ -102,5 +102,20 @@ function deleteVehicle($reg_num){
         die($e->getMessage());
     }
 }
+
+    function popular_rentals() {
+        try {
+            $freq_rentals = $this->db->prepare("SELECT * from popular_cars");
+            $freq_rentals->execute();
+            if($freq_rentals->rowCount() > 0){
+                return $freq_rentals->fetchAll(PDO::FETCH_OBJ);
+            }
+            else{
+                return false;
+            }
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
 }
 ?>
