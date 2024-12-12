@@ -1,15 +1,33 @@
 <?php
 require 'includes/init.php';
+function isValidPassword($password) {
+  return preg_match('/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/', $password);
+}
 
-if(isset($_POST['fname']) && isset($_POST['lname']) && isset($_POST['address']) && isset($_POST['phonenum']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['branch'])){
-  $result = $employee_obj->signUpEmployee($_POST['fname'], $_POST['lname'], $_POST['address'], $_POST['phonenum'], $_POST['email'],$_POST['password'], $_POST['branch']);
+if (isset($_POST['fname'], $_POST['lname'], $_POST['address'], $_POST['phonenum'], $_POST['email'], $_POST['password'], $_POST['branch'])) {
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $address = $_POST['address'];
+    $phonenum = $_POST['phonenum'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $branch = $_POST['branch'];
+
+    // Password validation
+    if (!isValidPassword($password)) {
+        $result['errorMessage'] = 'Password must contain an uppercase letter, a digit, and a special character.';
+    } else {
+        $result = $employee_obj->signUpEmployee($fname, $lname, $address, $phonenum, $email, $password, $branch);
+    }
 }
 
 $all_branches = $branch_obj->get_all_branches();
 
-if(isset($_SESSION['email'])){
-  header('Location: employee_profile.php');
+if (isset($_SESSION['email'])) {
+    header('Location: employee_profile.php');
+    exit;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

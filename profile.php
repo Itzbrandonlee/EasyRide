@@ -138,7 +138,7 @@ $all_branches = $branch_obj->get_all_branches();
                                     </div>
                                 </div>
                                 <div class="card-footer mt-3 text-center">
-                                    <a href="vehicle_profile.php?id=' . htmlspecialchars($row->registration_num) . '" class="btn btn-primary btn-sm">View Vehicle</a>
+                                    <a href="vehicle_profile.php?id=' . htmlspecialchars($row->registration_num) . '" class="btn btn-primary btn-sm">Book Vehicle</a>
                                 </div>
                             </div>
                         </div>
@@ -153,5 +153,6 @@ $all_branches = $branch_obj->get_all_branches();
         </div>
         
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
