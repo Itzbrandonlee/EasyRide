@@ -52,7 +52,8 @@ else{
                                 <div class="vehicle_info"><span>Dropoff date: '.$row->drop_date.'</span>
                                 <div class="vehicle_info"><span>Pickup Branch: '.$row->b1_branch_name.'</span>
                                 <div class="vehicle_info"><span>Dropoff Branch: '.$row->b2_branch_name.'</span>
-                                <span><a href="booking_profile.php?id='.$row->confirmation_num.'" class="see_profileBtn">View</a></div>
+                                <span><a href="booking_profile.php?id='.$row->confirmation_num.'" class="see_profileBtn">View</a>
+                                <span><a href="booking_status.php?id='.$row->confirmation_num.'" class="see_profileBtn">Change Status</a></div>
                                 <br></br>
                             </div>';
                     }
