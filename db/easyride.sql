@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2024 at 10:04 PM
+-- Generation Time: Dec 12, 2024 at 11:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,9 +46,12 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`confirmation_num`, `status`, `vehicle_registration`, `pickup_date`, `pickup_employee_email`, `customer_id`, `drop_date`, `drop_employee_email`, `pickup_branch_id`, `drop_branch_id`, `amount`) VALUES
-(4, 'canceled', 1, '2024-12-30', NULL, 1, '2024-12-31', NULL, 1, 2, 23.00),
-(5, 'pending', 12346, '2024-12-24', NULL, 1, '2024-12-24', NULL, 1, 2, 45.00),
-(6, 'pending', 12350, '2025-01-01', NULL, 2, '2025-01-01', NULL, 2, 3, 35.00);
+(4, 'completed', 1, '2024-12-17', 'tonymontana@gmail.com', 1, '2024-12-26', 'tonymontana@gmail.com', 1, 1, 23.00),
+(5, 'canceled', 12346, '2024-12-24', NULL, 1, '2024-12-24', NULL, 1, 2, 45.00),
+(6, 'pending', 12350, '2025-01-01', NULL, 2, '2025-01-01', NULL, 2, 3, 35.00),
+(7, 'ongoing', 12350, '2024-12-10', NULL, 1, '2024-12-12', NULL, 2, 1, 35.00),
+(8, 'canceled', 12352, '2024-12-10', NULL, 2, '2024-12-10', NULL, 1, 3, 64.00),
+(9, 'pending', 12355, '2024-12-10', NULL, 2, '2024-12-10', NULL, 3, 3, 18.00);
 
 -- --------------------------------------------------------
 
@@ -70,6 +73,19 @@ INSERT INTO `branch` (`branch_id`, `location`, `branch_name`) VALUES
 (1, 'Laguna Beach', 'Easyride LB'),
 (2, 'Mission Viejo', 'easyride MV'),
 (3, 'Fullerton', 'easyride FUL');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `cancelled_bookings`
+-- (See below for the actual view)
+--
+CREATE TABLE `cancelled_bookings` (
+`customer_fname` varchar(25)
+,`customer_lname` varchar(25)
+,`customer_email` varchar(50)
+,`customer_phonenum` varchar(15)
+);
 
 -- --------------------------------------------------------
 
@@ -165,6 +181,37 @@ INSERT INTO `fuel_type` (`fuel_type_id`, `fuel_type_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `popular_cars`
+-- (See below for the actual view)
+--
+CREATE TABLE `popular_cars` (
+`c_name` varchar(25)
+,`description` varchar(200)
+,`model_year` int(11)
+,`manufacturer` varchar(20)
+,`color` varchar(10)
+,`registration_num` int(11)
+,`seat_capacity` int(11)
+,`mileage` int(11)
+,`rate` float(10,2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `repeat_customers`
+-- (See below for the actual view)
+--
+CREATE TABLE `repeat_customers` (
+`customer_fname` varchar(25)
+,`customer_lname` varchar(25)
+,`customer_email` varchar(50)
+,`customer_phonenum` varchar(15)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `status_type`
 --
 
@@ -208,7 +255,11 @@ INSERT INTO `vehicle` (`car_id`, `c_name`, `description`, `model_year`, `manufac
 (3, 'Corolla', 'Standard', 2024, 'Toyota', 'Grey'),
 (4, 'Wrangler', '4x4', 2021, 'Jeep', 'Red'),
 (5, 'Civic', 'Luxury', 2023, 'Honda', 'White'),
-(6, 'Durango', 'Standard', 2018, 'Dodge', 'Black');
+(6, 'Durango', 'Standard', 2018, 'Dodge', 'Black'),
+(7, 'Transit', 'Standard', 2018, 'Ford', 'Black'),
+(8, 'Pregio', 'XL', 2022, 'Kia', 'White'),
+(9, 'Model X', 'Standard', 2019, 'Tesla', 'Red'),
+(10, 'Odyssey', 'Standard', 2017, 'Honda', 'Blue');
 
 -- --------------------------------------------------------
 
@@ -237,7 +288,40 @@ INSERT INTO `vehicle_details` (`registration_num`, `seat_capacity`, `mileage`, `
 (12347, 4, 30000, 31.00, 2, 1, 3, 4),
 (12348, 4, 25000, 15.00, 1, 1, 3, 3),
 (12349, 4, 15000, 20.00, 1, 2, 2, 5),
-(12350, 7, 50000, 35.00, 3, 1, 2, 6);
+(12350, 7, 50000, 35.00, 3, 1, 2, 6),
+(12351, 7, 20000, 34.00, 3, 4, 1, 10),
+(12352, 7, 25000, 64.00, 4, 1, 1, 8),
+(12353, 4, 12000, 45.00, 1, 4, 2, 9),
+(12354, 7, 50000, 35.00, 4, 1, 2, 7),
+(12355, 4, 25000, 18.00, 1, 1, 3, 3),
+(12356, 5, 40000, 25.00, 2, 2, 3, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `cancelled_bookings`
+--
+DROP TABLE IF EXISTS `cancelled_bookings`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cancelled_bookings`  AS SELECT `c`.`customer_fname` AS `customer_fname`, `c`.`customer_lname` AS `customer_lname`, `c`.`customer_email` AS `customer_email`, `c`.`customer_phonenum` AS `customer_phonenum` FROM (`customers` `c` join `booking` `b` on(`b`.`customer_id` = `c`.`customer_id`)) WHERE `b`.`status` = 'canceled' ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `popular_cars`
+--
+DROP TABLE IF EXISTS `popular_cars`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `popular_cars`  AS SELECT DISTINCT `v`.`c_name` AS `c_name`, `v`.`description` AS `description`, `v`.`model_year` AS `model_year`, `v`.`manufacturer` AS `manufacturer`, `v`.`color` AS `color`, `vd`.`registration_num` AS `registration_num`, `vd`.`seat_capacity` AS `seat_capacity`, `vd`.`mileage` AS `mileage`, `vd`.`rate` AS `rate` FROM ((((`vehicle` `v` join `vehicle_details` `vd` on(`vd`.`car_id` = `v`.`car_id`)) join `car_type` `ct` on(`ct`.`type_car_id` = `vd`.`type_car_id`)) join `fuel_type` `ft` on(`ft`.`fuel_type_id` = `vd`.`fuel_type_id`)) join `booking` `b` on(`b`.`vehicle_registration` = `vd`.`registration_num`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `repeat_customers`
+--
+DROP TABLE IF EXISTS `repeat_customers`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `repeat_customers`  AS SELECT `c`.`customer_fname` AS `customer_fname`, `c`.`customer_lname` AS `customer_lname`, `c`.`customer_email` AS `customer_email`, `c`.`customer_phonenum` AS `customer_phonenum` FROM (`customers` `c` join `booking` `b` on(`b`.`customer_id` = `c`.`customer_id`)) GROUP BY `c`.`customer_id`, `c`.`customer_fname`, `c`.`customer_lname`, `c`.`customer_email`, `c`.`customer_phonenum` HAVING count(0) >= 3 ;
 
 --
 -- Indexes for dumped tables
@@ -318,7 +402,7 @@ ALTER TABLE `vehicle_details`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `confirmation_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `confirmation_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `branch`
@@ -360,13 +444,13 @@ ALTER TABLE `status_type`
 -- AUTO_INCREMENT for table `vehicle`
 --
 ALTER TABLE `vehicle`
-  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `vehicle_details`
 --
 ALTER TABLE `vehicle_details`
-  MODIFY `registration_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12351;
+  MODIFY `registration_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12357;
 
 --
 -- Constraints for dumped tables
@@ -400,45 +484,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-CREATE VIEW `cancelled_bookings` AS
-    SELECT 
-        `c`.`customer_fname` AS `customer_fname`,
-        `c`.`customer_lname` AS `customer_lname`,
-        `c`.`customer_email` AS `customer_email`,
-        `c`.`customer_phonenum` AS `customer_phonenum`
-    FROM
-        (`customers` `c`
-        JOIN `booking` `b` ON (`b`.`customer_id` = `c`.`customer_id`))
-    WHERE
-        `b`.`status` = 'canceled';
-
-CREATE VIEW `popular_cars` AS
-    SELECT DISTINCT
-        `v`.`c_name` AS `c_name`,
-        `v`.`description` AS `description`,
-        `v`.`model_year` AS `model_year`,
-        `v`.`manufacturer` AS `manufacturer`,
-        `v`.`color` AS `color`,
-        `vd`.`registration_num` AS `registration_num`,
-        `vd`.`seat_capacity` AS `seat_capacity`,
-        `vd`.`mileage` AS `mileage`,
-        `vd`.`rate` AS `rate`
-    FROM
-        ((((`vehicle` `v`
-        JOIN `vehicle_details` `vd` ON (`vd`.`car_id` = `v`.`car_id`))
-        JOIN `car_type` `ct` ON (`ct`.`type_car_id` = `vd`.`type_car_id`))
-        JOIN `fuel_type` `ft` ON (`ft`.`fuel_type_id` = `vd`.`fuel_type_id`))
-        JOIN `booking` `b` ON (`b`.`vehicle_registration` = `vd`.`registration_num`));
-
-CREATE VIEW `repeat_customers` AS
-    SELECT 
-        `c`.`customer_fname` AS `customer_fname`,
-        `c`.`customer_lname` AS `customer_lname`,
-        `c`.`customer_email` AS `customer_email`,
-        `c`.`customer_phonenum` AS `customer_phonenum`
-    FROM
-        (`customers` `c`
-        JOIN `booking` `b` ON (`b`.`customer_id` = `c`.`customer_id`))
-    GROUP BY `c`.`customer_id` , `c`.`customer_fname` , `c`.`customer_lname` , `c`.`customer_email` , `c`.`customer_phonenum`
-    HAVING COUNT(0) >= 3;
