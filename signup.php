@@ -20,26 +20,56 @@ if(isset($_SESSION['email'])){
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-	<h2>EasyRide</h2>
-  <div class="main_container login_signup_container">
-    <h1>Sign Up</h1>
-    <form action="" method="POST" novalidate>
-      <label for="fname">First Name</label>
-      <input type="text" id="fname" name="fname" spellcheck="false" placeholder="Enter your first name" required>
-      <label for="lname">Last Name</label>
-      <input type="text" id="lname" name="lname" spellcheck="false" placeholder="Enter your last name" required>
-      <label for="address">Address</label>
-      <input type="text" id="address" name="address" spellcheck="false" placeholder="Enter your address" required>
-      <label for="phonenum">Phone Number</label>
-      <input type="text" id="phonenum" name="phonenum" spellcheck="false" placeholder="Enter your phone number" required>
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" spellcheck="false" placeholder="Enter your email address" required>
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Enter your password" required>
-      <input type="submit" value="Sign Up">
-      <a href="index.php" class="form_link">Login</a>
-    </form>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark nav-container">
+    <div class="container">
+            <a class="navbar-brand" href="#">Easy Ride</a>
+    </div>
+</nav>
+
+<section class="hero-section text-center text-black bg-light">
+    <div class="container">
+        <h1 class="display-4 mb-3 mt-4">Let's Get Started!</h1>
+    </div>
+</section>
+
+<section class="login-form-section py-2 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-3">Create an Account</h2>
+  <div class="row justify-content-center login_signup_container">
+    <div class="col-md-6">
+      <div class="card p-4 shadow">
+        <form action="" method="POST" novalidate>
+          <div class="mb-3">
+          <label for="fname">First Name</label>
+          <input type="text" id="fname" name="fname" spellcheck="false" placeholder="Enter your first name" required>
+          </div>
+          <div class="mb-3">
+          <label for="lname">Last Name</label>
+          <input type="text" id="lname" name="lname" spellcheck="false" placeholder="Enter your last name" required>
+          </div>
+          <div class="mb-3">
+          <label for="address">Address</label>
+          <input type="text" id="address" name="address" spellcheck="false" placeholder="Enter your address" required>
+          </div>
+          <div class="mb-3">
+          <label for="phonenum">Phone Number</label>
+          <input type="text" id="phonenum" name="phonenum" spellcheck="false" placeholder="Enter your phone number" required>
+          </div>
+          <div class="mb-3">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" spellcheck="false" placeholder="Enter your email address" required>
+          </div>
+          <div class="mb-3">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+          </div>   
+     
+          <input type="submit" class="btn btn-primary w-100" value="Sign Up">
+          <div class="d-flex justify-content-end">
+          <p class="mt-4">Already a Member? - <a href="index.php">Log In</a> </p>
+          </div> 
+        </form>
     <div>  
       <?php
         if(isset($result['errorMessage'])){

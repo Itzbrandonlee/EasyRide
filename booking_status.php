@@ -33,43 +33,51 @@ if(isset($_POST['status'])){
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="profile_container">
-        
-        <div class="inner_profile">
-            <div class="img">
-                <!-- Insert picture here -->
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark nav-container">
+        <div class="container">
+            <a class="navbar-brand" href="#">Easy Ride</a>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a href="stats.php" rel="noopener noreferrer" class="nav-link">Dashboard</a></li>
+                    <li class="nav-item"><a href="employee_vehicles.php" rel="noopener noreferrer" class="nav-link">All Vehicles</a></li>
+                    <li class="nav-item"><a href="employee_profile.php" rel="noopener noreferrer" class="nav-link active">Bookings</a></li>
+                    <li class="nav-item"><a href="logout.php" rel="noopener noreferrer" class="nav-link">Logout</a></li>
+                </ul>
+                <span class="employee-name">
+                <?php echo  $employee_data->employee_fname." ".$employee_data->employee_lname;?>
+            </span>
             </div>
-            <h1><?php echo  $booking_data->confirmation_num;?></h1>
-            <nav>
-            <ul>
-                <li><a href="employee_profile.php" rel="noopener noreferrer">Home</a></li>
-                <li><a href="employee_profile.php" rel="noopener noreferrer">Rental History</a></li>
-                <li><a href="logout.php" rel="noopener noreferrer">Logout</a></li>
-            </ul>
-        </nav>
-        <div class="background">
-        <div class="update-booking-form">
-            <h2>Update Status</h2>
-            <form action="" method="post">  
-            <label for="status">Status</label>  
-                <select name="status" id="status" required>
-                <option value="">--Select status--</option>
-                <?php foreach ($all_statuses as $statuses): ?>
-                    <option value="<?= htmlspecialchars($statuses->status); ?>">
-                        <?= htmlspecialchars($statuses->status); ?>
-                </option>
-                <?php endforeach; ?>
-                </select>
-                <br></br>
-                <button type="submit">Submit</button>
-            </form>
+        </div>
+    </nav>
+    <div class="container py-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="h3">Update Booking Status</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-8 offset-md-2 mt-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <form action="" method="post">  
+                                <label for="status" class="form-label">Update Status: </label>  
+                                <select name="status" id="status" class="form-control" required>
+                                <option value="">--Select status--</option>
+                                <?php foreach ($all_statuses as $statuses): ?>
+                                <option value="<?= htmlspecialchars($statuses->status); ?>">
+                                <?= htmlspecialchars($statuses->status); ?>
+                                </option>
+                                <?php endforeach; ?>
+                                </select>
+                                <button type="submit" class="btn btn-primary mt-3 w-100">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-        </div>
-     
-        
-    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
